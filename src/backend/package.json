@@ -1,0 +1,16 @@
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+      "express": "^5.1.0",
+      "cors": "^2.8.5",
+      "jsonwebtoken": "^9.0.2",
+      "body-parser": "^2.2.0",
+      "fs": "0.0.1-security"
+    },
+    "scripts": {
+      "start": "node server.js"
+    }
+  }
+  

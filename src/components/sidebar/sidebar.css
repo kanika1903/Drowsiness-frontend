@@ -1,0 +1,90 @@
+/* Sidebar container */
+.sidebar-container {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  z-index: 1000;
+}
+
+/* Hamburger Button */
+.hamburger-button {
+  font-size: 30px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  margin: 10px 20px;
+  transition: transform 0.4s ease, color 0.3s ease;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+}
+
+.hamburger-button:focus,
+.hamburger-button:hover,
+.hamburger-button:active {
+  outline: none;
+  background: none;
+  box-shadow: none;
+}
+
+/* Rotate when sidebar is open */
+.hamburger-button.active {
+  transform: rotate(45deg);
+}
+
+/* Sidebar Styles */
+.sidebar {
+  position: absolute;
+  top: 80px;
+  left: 40px;
+  background-color: #844e7a;
+  border-radius: 30px;
+  padding: 50px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4);
+  width: 300px;
+  opacity: 0;
+  transform: translateX(-100%);
+  pointer-events: none;
+  transition: all 0.6s ease;
+  z-index: 1000;
+}
+
+/* Sidebar when visible */
+.sidebar.open {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+/* Sidebar Links and Buttons */
+.sidebar a,
+.sidebar button {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 26px;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  padding: 5px 0;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect */
+.sidebar a:hover,
+.sidebar button:hover {
+  color: #ffccff;
+  transform: translateX(5px);
+}
+
+/* Remove button outlines on focus */
+.sidebar a:focus,
+.sidebar button:focus {
+  outline: none;
+}

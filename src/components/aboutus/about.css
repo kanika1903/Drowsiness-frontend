@@ -1,0 +1,122 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* About Page */
+.about-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #5e3144 4%, #7a6ba0, #b0738c 40%, #2f4265 60%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0;
+}
+
+.header-container {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+/* About Header */
+.about-header {
+  width: 100%;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar {
+  width: 100%;
+  position: relative;
+  height: 100%;
+}
+
+#about-logo {
+  font-family: 'MedievalSharp', cursive;
+  font-size: 36px;
+  color: white;
+  letter-spacing: 2px;
+  white-space: nowrap;
+  position: absolute;
+  animation: floatText 10s linear infinite;
+}
+
+@keyframes floatText {
+  0% {
+    left: -40%;
+    transform: translateX(0);
+  }
+  100% {
+    left: 100%;
+    transform: translateX(0);
+  }
+}
+
+/* About Main Content */
+.about-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 120px 20px 20px;
+  width: 100%;
+  margin-top: 60px;
+  z-index: 1;
+}
+
+/* About Content */
+.about-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  margin: 0;
+  gap: 30px;
+}
+
+/* About Text Styling */
+.about-text {
+  flex: 1;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap');
+
+.about-text h1 {
+  font-family: 'Uncial Antiqua', cursive;
+  font-size: 65px;
+  margin-bottom: 20px;
+}
+
+.about-text p {
+  font-size: 22px;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  max-width: 400px;
+  font-weight: 300;
+}
+
+/* About Illustration */
+.about-illustration {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.about-illustration img {
+  max-width: 100%;
+  width: 80%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+}

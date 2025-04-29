@@ -29,13 +29,25 @@ function Sidebar() {
         {isSidebarOpen ? "✖" : "☰"}
       </button>
 
-     {isSidebarOpen && <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
-        <button onClick={handleHomeClick} className="sidebar-link">Home</button>
-        <Link to="/aboutus" className="sidebar-link">About Us</Link>
-        <Link to="/contact" className="sidebar-link">Contact</Link>
-        <Link to="/faq" className="sidebar-link">FAQ</Link>
-        <button onClick={handleLogout} className="sidebar-link">Logout</button>
-      </div>}
+      {isSidebarOpen && (
+        <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
+          <button onClick={handleHomeClick} className="sidebar-link">
+            Home
+          </button>
+          <Link to="/aboutus" className="sidebar-link">
+            About Us
+          </Link>
+          <Link to="/monitor#contact" className="sidebar-link">
+            Contact
+          </Link>
+          <Link to="/faq" className="sidebar-link">
+            FAQ
+          </Link>
+          <button onClick={handleLogout} className="sidebar-link">
+            Logout
+          </button>
+        </div>
+      )}
     </div>
   );
 }

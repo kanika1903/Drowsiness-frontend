@@ -27,20 +27,25 @@ const About = () => {
 
   return (
     <div className="about-page">
-        <header className="about-header">
-          <div id="about-us-page" className="navbar">
-            <span id="about-logo">SNAP-AWAKE</span>
-          </div>
-         </header>
+      <header className="about-header">
+        <div id="about-us-page" className="navbar">
+          <span id="about-logo">SNAP-AWAKE</span>
+        </div>
+      </header>
 
       <main className="about-main">
         <div className="about-content">
           <AboutCont />
           <div className="about-illustration">
-            <img src="/abtp.jpg" alt="drowsiness detection" />
+            <img src="/dlg.svg" alt="drowsiness detection" />
           </div>
         </div>
       </main>
+
+      {/* Footer with Copyright and Dashboard Links */}
+      <footer className="footer">
+        <div className="copyright">© 2025 SnapAwake. All Rights Reserved.</div>
+      </footer>
     </div>
   );
 };

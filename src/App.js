@@ -5,6 +5,7 @@ import Signup from "./components/signup/signup";
 import Monitor from "./components/monitor/monitor";
 import AboutUs from "./components/aboutus/about"; 
 import Sidebar from "./components/sidebar/sidebar"; // ➡️ import Sidebar
+import FAQ from "./components/faq/faq"; // Import FAQ
 
 export const AuthContext = createContext();
 
@@ -23,7 +24,7 @@ function AppWrapper() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/monitor" element={<Monitor />} />
         <Route path="/aboutus" element={<AboutUs />} />
-        {/* <Route path="/faq" element={<faq />} /> */}
+        <Route path="/faq" element={<FAQ />} /> {/* Add the FAQ route */}
       </Routes>
     </>
   );

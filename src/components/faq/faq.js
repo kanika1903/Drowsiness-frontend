@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import "./faq.css"; // Import your custom styles
+import Header from "../header/header";
+import Copyright from "../right/right"; // ✅ Import copyright component
+import "./faq.css";
 
 const FAQ = () => {
   const [expanded, setExpanded] = useState(null);
@@ -23,23 +25,15 @@ const FAQ = () => {
 
   return (
     <div className="faq-container">
-      {/* Header Section */}
-      <header className="faq-header">
-        <div className="navbar">
-          <span id="faq-logo">SNAP-AWAKE</span>
-        </div>
-      </header>
+      <Header />
 
-      {/* Sub-heading */}
-      <div className="faq-heading">
-        <h1>FAQ's</h1>
-        <h2>Frequently Asked Questions</h2>
-        <h2>Here are some common questions about Snap-Awake</h2>
+      <div className="faq-heading-image">
+        <img src="/faq.png" alt="FAQ Heading" className="faq-heading-img" />
       </div>
+      <h2 className="faq-heading-text">Here are some common questions about Snap-Awake:</h2>
 
-      {/* Main FAQ Content */}
       <main className="faq-main">
-        <div className="faq-content">
+        <div className="faq-content-two-column">
           <div className="faq-list">
             {faqData.map((item, index) => (
               <div key={index} className="faq-item">
@@ -55,18 +49,15 @@ const FAQ = () => {
               </div>
             ))}
           </div>
+
+          <div className="faq-side-image">
+            <img src="/faq2.png" alt="Side Visual" />
+          </div>
         </div>
       </main>
 
-      {/* Fat Image Section */}
-      <div className="faq-image-section">
-        <img src="/faq.jpeg" alt="Fat Banner" className="faq-image" />
-      </div>
-
-      {/* Footer */}
-      <footer className="footer">
-        <div className="copyright">© 2025 SnapAwake. All Rights Reserved.</div>
-      </footer>
+      {/* ✅ Reusable Footer */}
+      <Copyright />
     </div>
   );
 };

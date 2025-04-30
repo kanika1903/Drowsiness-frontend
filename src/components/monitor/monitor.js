@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom"; // <-- ADD useLocation
+import { useNavigate, useLocation } from "react-router-dom";
 import "./monitor.css";
+import Header from "../header/header";
+import Copyright from "../right/right"; // Import the new Copyright component
 
 function Monitor() {
   const [drowsinessAlert, setDrowsinessAlert] = useState(false);
@@ -13,14 +15,13 @@ function Monitor() {
   const [showContact, setShowContact] = useState(false);
 
   const navigate = useNavigate();
-  const location = useLocation(); // <-- ADD THIS
+  const location = useLocation();
   const pollingRef = useRef(null);
   const videoRef = useRef(null);
 
   const startMonitoring = async () => {
     setLoading(true);
     setError(null);
-
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "user" },
@@ -33,15 +34,11 @@ function Monitor() {
 
       const response = await fetch("http://localhost:5001/start", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       });
 
       const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to start monitoring");
-      }
+      if (!response.ok) throw new Error(data.message || "Failed to start monitoring");
 
       setIsMonitoring(true);
       setDrowsinessAlert(false);
@@ -58,19 +55,14 @@ function Monitor() {
 
   const stopMonitoring = async () => {
     setLoading(true);
-
     try {
       const response = await fetch("http://localhost:5001/stop", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       });
 
       const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to stop monitoring");
-      }
+      if (!response.ok) throw new Error(data.message || "Failed to stop monitoring");
 
       setIsMonitoring(false);
       setDrowsinessAlert(false);
@@ -104,9 +96,7 @@ function Monitor() {
           setDrowsinessAlert(data.drowsiness);
           setYawnAlert(data.yawn);
 
-          if (data.drowsiness || data.yawn) {
-            setLastAlertTime(Date.now());
-          }
+          if (data.drowsiness || data.yawn) setLastAlertTime(Date.now());
 
           if (data.status === "inactive" && isMonitoring) {
             setIsMonitoring(false);
@@ -121,14 +111,10 @@ function Monitor() {
   };
 
   useEffect(() => {
-    // Check if URL has '?contact=true'
     const params = new URLSearchParams(location.search);
     const contactParam = params.get("contact");
-
-    if (contactParam === "true") {
-      setShowContact(true); // Automatically open contact section
-    }
-  }, [location.search]); // Only when URL changes
+    if (contactParam === "true") setShowContact(true);
+  }, [location.search]);
 
   useEffect(() => {
     return () => {
@@ -137,15 +123,14 @@ function Monitor() {
     };
   }, []);
 
-  const toggleContact = () => {
-    setShowContact((prev) => !prev);
-  };
+  const toggleContact = () => setShowContact((prev) => !prev);
 
   return (
     <div className="monitor-container">
+      <Header />
+
       <div className="monitor-content">
-        <header className="monitor-header">
-          <h1>SNAPAWAKE</h1>
+        <div className="monitor-subheader">
           <p>Stay safe on the road with our real-time drowsiness and yawn detection system!</p>
 
           {error && <div className="error-message">{error}</div>}
@@ -159,7 +144,7 @@ function Monitor() {
               {loading ? "Starting..." : "Start Monitoring"}
             </button>
           )}
-        </header>
+        </div>
 
         <main className="monitor-main">
           {cameraActive && (
@@ -181,12 +166,11 @@ function Monitor() {
           <div className="status-indicator">
             {isMonitoring ? (
               <div className={`monitoring-status ${
-                drowsinessAlert ? 'drowsiness-alert' : 
-                yawnAlert ? 'yawn-alert' : ''
-              }`}>
-                {drowsinessAlert ? "DROWSINESS DETECTED!" 
-                 : yawnAlert ? "YAWNING DETECTED!" 
-                 : "Monitoring Active..."}
+                drowsinessAlert ? "drowsiness-alert" :
+                yawnAlert ? "yawn-alert" : ""}`}>
+                {drowsinessAlert ? "DROWSINESS DETECTED!" :
+                 yawnAlert ? "YAWNING DETECTED!" :
+                 "Monitoring Active..."}
               </div>
             ) : (
               <div className="alert-message inactive">
@@ -197,30 +181,24 @@ function Monitor() {
         </main>
       </div>
 
-      {/* Footer Section */}
-      <div className="footer-section">
-        <div className="contact-dashboard">
-          {showContact && (
-            <div className="contact-content">
-              <h2>Contact Us</h2>
-              <p>If you have any questions or need assistance, feel free to reach out:</p>
-              <div className="contact-info">
-                <p><strong>Phone:</strong> +91 9876543210</p>
-                <p><strong>Email:</strong> support@snapawake.com</p>
-              </div>
+      {/* Contact Us Section */}
+      <div className="contact-dashboard">
+        <button className="contact-toggle" onClick={toggleContact}>
+          {showContact ? "Hide Contact Us" : "Contact Us"}
+        </button>
+        {showContact && (
+          <div className="contact-content">
+            <h2>Contact Us</h2>
+            <div className="contact-info">
+              <p>Phone: (+91) 9785303234</p>
+              <p>Email: support@snapawake.com</p>
             </div>
-          )}
-          <button onClick={toggleContact} className="contact-toggle">
-            {showContact ? "Hide Contact" : "Contact Us"}
-          </button>
-        </div>
-
-        <div className="rights-dashboard">
-          <div className="rights-content">
-            <p>© 2025 SnapAwake. All Rights Reserved.</p>
           </div>
-        </div>
+        )}
       </div>
+
+      {/* Footer Section */}
+      <Copyright />
     </div>
   );
 }

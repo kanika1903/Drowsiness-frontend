@@ -1,7 +1,10 @@
+// src/pages/About.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./about.css";
 import Sidebar from "../sidebar/sidebar";
+import Header from "../header/header";
+import Copyright from "../right/right"; 
 
 const About = () => {
   const navigate = useNavigate();
@@ -27,12 +30,7 @@ const About = () => {
 
   return (
     <div className="about-page">
-      <header className="about-header">
-        <div id="about-us-page" className="navbar">
-          <span id="about-logo">SNAP-AWAKE</span>
-        </div>
-      </header>
-
+      <Header />
       <main className="about-main">
         <div className="about-content">
           <AboutCont />
@@ -41,11 +39,7 @@ const About = () => {
           </div>
         </div>
       </main>
-
-      {/* Footer with Copyright and Dashboard Links */}
-      <footer className="footer">
-        <div className="copyright">© 2025 SnapAwake. All Rights Reserved.</div>
-      </footer>
+      <Copyright /> {/* ✅ Reused component */}
     </div>
   );
 };

@@ -74,6 +74,9 @@
   cursor: pointer;
   text-align: left;
   padding: 5px 0;
+  box-shadow: none !important;
+  /* background: none;
+  border: none; */
   transition: color 0.3s ease, transform 0.3s ease;
 }
 

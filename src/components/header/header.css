@@ -1,0 +1,39 @@
+/* Header.css */
+.shared-header {
+    width: 100%;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .navbar {
+    width: 100%;
+    position: relative;
+    height: 100%;
+  }
+  
+  #about-logo {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 36px;
+    color: white;
+    letter-spacing: 2px;
+    white-space: nowrap;
+    position: absolute;
+    animation: floatText 10s linear infinite;
+  }
+  
+  @keyframes floatText {
+    0% {
+      left: -40%;
+      transform: translateX(0);
+    }
+    100% {
+      left: 100%;
+      transform: translateX(0);
+    }
+  }
+  

@@ -23,6 +23,11 @@ function Sidebar() {
     }
   };
 
+  const handleContactClick = () => {
+    navigate("/monitor", { state: { scrollToContact: true } });
+    setIsSidebarOpen(false);
+  };
+
   return (
     <div className="sidebar-container">
       <button className="hamburger-button" onClick={toggleSidebar}>
@@ -37,9 +42,9 @@ function Sidebar() {
           <Link to="/aboutus" className="sidebar-link">
             About Us
           </Link>
-          <Link to="/monitor#contact" className="sidebar-link">
+          <button onClick={handleContactClick} className="sidebar-link">
             Contact
-          </Link>
+          </button>
           <Link to="/faq" className="sidebar-link">
             FAQ
           </Link>

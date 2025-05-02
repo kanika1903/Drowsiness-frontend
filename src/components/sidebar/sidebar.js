@@ -1,10 +1,35 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./sidebar.css";
 
 function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+  const [tempHighlight, setTempHighlight] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const state = location.state;
+    if (location.pathname === "/monitor" && state?.from === "contact") {
+      setActiveSection("contact");
+      setTempHighlight(true);
+
+      const timeout = setTimeout(() => {
+        setTempHighlight(false);
+      }, 2000);
+
+      return () => clearTimeout(timeout);
+    } else if (location.pathname === "/monitor") {
+      setActiveSection("home");
+    } else if (location.pathname === "/aboutus") {
+      setActiveSection("aboutus");
+    } else if (location.pathname === "/faq") {
+      setActiveSection("faq");
+    } else {
+      setActiveSection("");
+    }
+  }, [location]);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -16,15 +41,22 @@ function Sidebar() {
   };
 
   const handleHomeClick = () => {
-    if (window.location.pathname === "/monitor") {
-      window.location.reload(); // Already on monitor page, reload
-    } else {
-      navigate("/monitor"); // Navigate to monitor page
-    }
+    navigate("/monitor");
+    setIsSidebarOpen(false);
   };
 
   const handleContactClick = () => {
-    navigate("/monitor", { state: { scrollToContact: true } });
+    navigate("/monitor", { state: { from: "contact", scrollToContact: true } });
+    setIsSidebarOpen(false);
+  };
+
+  const handleAboutUsClick = () => {
+    navigate("/aboutus");
+    setIsSidebarOpen(false);
+  };
+
+  const handleFaqClick = () => {
+    navigate("/faq");
     setIsSidebarOpen(false);
   };
 
@@ -36,18 +68,34 @@ function Sidebar() {
 
       {isSidebarOpen && (
         <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
-          <button onClick={handleHomeClick} className="sidebar-link">
+          <button
+            onClick={handleHomeClick}
+            className={`sidebar-link ${activeSection === "home" ? "active" : ""}`}
+          >
             Home
           </button>
-          <Link to="/aboutus" className="sidebar-link">
+
+          <button
+            onClick={handleAboutUsClick}
+            className={`sidebar-link ${activeSection === "aboutus" ? "active" : ""}`}
+          >
             About Us
-          </Link>
-          <button onClick={handleContactClick} className="sidebar-link">
-            Contact
           </button>
-          <Link to="/faq" className="sidebar-link">
-            FAQ
-          </Link>
+
+          <button
+            onClick={handleContactClick}
+            className={`sidebar-link ${activeSection === "contact" ? "active" : ""}`}
+          >
+            Contact📱
+          </button>
+
+          <button
+            onClick={handleFaqClick}
+            className={`sidebar-link ${activeSection === "faq" ? "active" : ""}`}
+          >
+            FAQ 🤔
+          </button>
+
           <button onClick={handleLogout} className="sidebar-link">
             Logout
           </button>

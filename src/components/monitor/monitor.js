@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./monitor.css";
 import Header from "../header/header";
-import Copyright from "../right/right"; // Import the new Copyright component
+import Copyright from "../right/right";
 
 function Monitor() {
   const [drowsinessAlert, setDrowsinessAlert] = useState(false);
@@ -19,6 +19,9 @@ function Monitor() {
   const pollingRef = useRef(null);
   const videoRef = useRef(null);
 
+  const drowsinessAudioRef = useRef(null);
+  const yawnAudioRef = useRef(null);
+
   const startMonitoring = async () => {
     setLoading(true);
     setError(null);
@@ -27,9 +30,7 @@ function Monitor() {
         video: { facingMode: "user" },
         audio: false,
       });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-      }
+      if (videoRef.current) videoRef.current.srcObject = stream;
       setCameraActive(true);
 
       const response = await fetch("http://localhost:5001/start", {
@@ -111,10 +112,17 @@ function Monitor() {
   };
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const contactParam = params.get("contact");
-    if (contactParam === "true") setShowContact(true);
-  }, [location.search]);
+    if (location.state?.scrollToContact) {
+      setShowContact(true);
+      const timer = setTimeout(() => {
+        const contactSection = document.querySelector(".contact-dashboard");
+        if (contactSection) {
+          contactSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [location]);
 
   useEffect(() => {
     return () => {
@@ -123,15 +131,47 @@ function Monitor() {
     };
   }, []);
 
+  useEffect(() => {
+    const dAudio = drowsinessAudioRef.current;
+    const yAudio = yawnAudioRef.current;
+
+    if (!dAudio || !yAudio) return;
+
+    if (drowsinessAlert) {
+      if (!dAudio.paused) return;
+      yAudio.pause();
+      yAudio.currentTime = 0;
+      dAudio.volume = 1;
+      dAudio.play().catch((err) => console.error("Drowsiness audio error:", err));
+    } else {
+      dAudio.pause();
+      dAudio.currentTime = 0;
+    }
+
+    if (yawnAlert) {
+      if (!yAudio.paused) return;
+      dAudio.pause();
+      dAudio.currentTime = 0;
+      yAudio.volume = 1;
+      yAudio.play().catch((err) => console.error("Yawn audio error:", err));
+    } else {
+      yAudio.pause();
+      yAudio.currentTime = 0;
+    }
+  }, [drowsinessAlert, yawnAlert]);
+
   const toggleContact = () => setShowContact((prev) => !prev);
 
   return (
     <div className="monitor-container">
       <Header />
 
+      <audio ref={drowsinessAudioRef} src="/drow.mp3" preload="auto" loop />
+      <audio ref={yawnAudioRef} src="/yawn.wav" preload="auto" loop />
+
       <div className="monitor-content">
         <div className="monitor-subheader">
-          <p>Stay safe on the road with our real-time drowsiness and yawn detection system!</p>
+          <p>Stay safe on the road with our Real-Time DROWSINESS and YAWN Detection System!</p>
 
           {error && <div className="error-message">{error}</div>}
 
@@ -165,12 +205,20 @@ function Monitor() {
 
           <div className="status-indicator">
             {isMonitoring ? (
-              <div className={`monitoring-status ${
-                drowsinessAlert ? "drowsiness-alert" :
-                yawnAlert ? "yawn-alert" : ""}`}>
-                {drowsinessAlert ? "DROWSINESS DETECTED!" :
-                 yawnAlert ? "YAWNING DETECTED!" :
-                 "Monitoring Active..."}
+              <div
+                className={`monitoring-status ${
+                  drowsinessAlert
+                    ? "drowsiness-alert"
+                    : yawnAlert
+                    ? "yawn-alert"
+                    : ""
+                }`}
+              >
+                {drowsinessAlert
+                  ? "DROWSINESS DETECTED!"
+                  : yawnAlert
+                  ? "YAWNING DETECTED!"
+                  : "Monitoring Active..."}
               </div>
             ) : (
               <div className="alert-message inactive">
@@ -197,7 +245,6 @@ function Monitor() {
         )}
       </div>
 
-      {/* Footer Section */}
       <Copyright />
     </div>
   );

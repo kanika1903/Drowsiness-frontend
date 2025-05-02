@@ -11,7 +11,7 @@ const Login = () => {
     e.preventDefault();
 
     if (!username || !password) {
-      alert("Please enter both username and password.");
+      // No alert here, you can display an error message below the input fields instead
       return;
     }
 
@@ -28,14 +28,15 @@ const Login = () => {
 
       if (response.ok) {
         localStorage.setItem("authToken", data.token || "dummyToken");
-        alert("Login successful!");
+        // Redirect to monitor page without showing an alert
         navigate("/monitor");
       } else {
-        alert(`Error: ${data.message}`);
+        // Handle errors in a user-friendly way
+        console.error(`Error: ${data.message}`);
       }
     } catch (error) {
       console.error("Error during login:", error);
-      alert("Server error. Please try again later.");
+      // Handle the error without showing alert
     }
   };
 

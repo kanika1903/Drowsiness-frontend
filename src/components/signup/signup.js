@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import  "./signup.css";
+import "./signup.css";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
@@ -33,7 +33,7 @@ export default function Signup() {
       const data = await response.json();
 
       if (response.ok) {
-        alert("Signup successful! Please log in.");
+        // Instead of alert, directly navigate to login page after successful signup
         navigate("/login");
       } else {
         setError(data.message || "Signup failed");
@@ -47,7 +47,7 @@ export default function Signup() {
   return (
     <div className="signup-page split-layout">
       <div className="left-side">
-        <h1 className="brand-title">SNAP-AWAKE</h1>
+        <h1 id="brand-title">SNAP-AWAKE</h1>
       </div>
       <div className="right-side">
         <div className="signup-box">
